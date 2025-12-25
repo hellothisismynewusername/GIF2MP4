@@ -1,0 +1,35 @@
+MP4 → GIF Converter Quick Start
+
+Requirements:
+
+* Rust
+* FFmpeg (C:\mpreg\ffmpeg.exe)
+* MP4 video (usually inbuilt w windows)
+
+Build:
+cargo build --release
+
+Run:
+cargo run -- --input <input.mp4> --output <output.gif>
+
+Optional:
+--start <seconds>
+--end <seconds>
+--fps <number> (check by looking at properties of mp4)
+--scale <percent>
+--width <pixels>
+
+Crop:
+--left <percent>
+--right <percent>
+--up <percent>
+--down <percent>
+
+Rules: total horizontal < 100%, total vertical < 100%
+
+Preview PNG generated automatically: <output>.preview.png
+GIF < 10 MB
+
+Examples:
+cargo run -- --input .\gifex.mp4 --output gifex.gif  --fps 30  --start 230 --end 235 --up 10
+The preview image, as well as the 
