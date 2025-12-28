@@ -56,7 +56,6 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     ensure_ffmpeg_exists()?;
-
     let preview_path = args.output.with_extension("preview.png");
     let palette_path = args.output.with_extension("palette.png");
 
@@ -75,9 +74,14 @@ fn main() -> Result<()> {
     Ok(())
 }
 
+fn get_ffmpeg_path() -> String {
+    // already validated this env var in build.rs
+    std::env::var("FFMPEG_PATH").unwrap()
+}
+
 /// Pulls ffmpeg from the system path and checks if it's working
 fn ensure_ffmpeg_exists() -> Result<()> {
-    let ffmpeg_path = r"C:\mpreg\ffmpeg.exe";
+    let ffmpeg_path = get_ffmpeg_path();
     let status = Command::new(ffmpeg_path)
         .arg("-version")
         .status()
@@ -132,7 +136,7 @@ fn scale_and_crop_filter(args: &Args) -> String {
 
 /// Preview image for crop (what the crop would look like)
 fn generate_crop_preview(args: &Args, output_png: &PathBuf) -> Result<()> {
-    let ffmpeg_path = r"C:\mpreg\ffmpeg.exe";
+    let ffmpeg_path = get_ffmpeg_path();
     let filter = scale_and_crop_filter(args);
 
     let mut cmd = Command::new(ffmpeg_path);
@@ -163,7 +167,7 @@ fn generate_crop_preview(args: &Args, output_png: &PathBuf) -> Result<()> {
 
 ///FFMPEG palette generation
 fn generate_palette(args: &Args, palette: &PathBuf) -> Result<()> {
-    let ffmpeg_path = r"C:\mpreg\ffmpeg.exe";
+    let ffmpeg_path = get_ffmpeg_path();
     let filter = format!(
         "fps={},{} ,palettegen=stats_mode=diff:max_colors=256",
         args.fps,
@@ -193,7 +197,7 @@ fn generate_palette(args: &Args, palette: &PathBuf) -> Result<()> {
 
 /// GIF  generation
 fn generate_gif(args: &Args, palette: &PathBuf, output: &PathBuf) -> Result<()> {
-    let ffmpeg_path = r"C:\mpreg\ffmpeg.exe";
+    let ffmpeg_path = get_ffmpeg_path();
     let filter = format!(
         "fps={},{}[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=5",
         args.fps,
