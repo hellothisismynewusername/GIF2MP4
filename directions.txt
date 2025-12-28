@@ -3,7 +3,7 @@ MP4 → GIF Converter Quick Start
 Requirements:
 
 * Rust
-* FFmpeg (C:\mpreg\ffmpeg.exe)
+* FFmpeg (set the "FFMPEG_PATH" environment variable to the executable)
 * MP4 video (usually inbuilt w windows)
 
 Build:
@@ -32,4 +32,4 @@ GIF < 10 MB
 
 Examples:
 cargo run -- --input .\gifex.mp4 --output gifex.gif  --fps 30  --start 230 --end 235 --up 10
-The preview image, as well as the 
+The preview image, as well as the.
