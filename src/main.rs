@@ -79,7 +79,7 @@ fn get_ffmpeg_path() -> Result<String> {
     if p.is_ok() {
         Ok(p.unwrap())
     } else {
-        bail!("Please set the 'FFMPEG' environment variable to the ffmpeg executable");
+        bail!("Please set the 'FFMPEG_PATH' environment variable to the ffmpeg executable");
     }
 }
 
